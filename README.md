@@ -4,6 +4,10 @@
 
 James Conklin & Michael Loren Loschiavo
 
+[Trello Board](https://trello.com/b/Gjr0s6xz)
+
+[Live View]()
+
 ## Overview
 
 QuadKompressor will allow users to upload their own image to the application
@@ -20,11 +24,11 @@ through the Cloudinary API and key a list of such uploads to a given user with d
 
 **Landing Page**
 
-![landing]
+![landing](docs/wireframes/application.png)
 
 **App Page**
 
-![application]
+![application](docs/wireframes/application.png)
 
 ## Implementation
 
@@ -61,7 +65,3 @@ We will need to learn the D3.js library for rendering. Dividing images strongly 
    - Grayscale
    - Variable tolerance
    - Render as bitmap.
-
-[landing]: (./docs/wireframes/landing.png)
-[application]: (./docs/wireframes/application.png)
-[trello]:(trello.com)
