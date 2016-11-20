@@ -1,6 +1,8 @@
-
-
 # QuadKompressor
+
+## Collaborators
+
+James Conklin & Michael Loren Loschiavo
 
 ## Overview
 
