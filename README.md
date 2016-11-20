@@ -29,13 +29,13 @@ through the Cloudinary API and key a list of such uploads to a given user with d
 ## Implementation
 
 ### Libraries & Techniques
-Both collaborators have prior experience working with the Cloudinary API, and we foresee little trouble integrating int into this project.
+Both collaborators have prior experience working with the Cloudinary API, and we foresee little trouble integrating it into this project.
 
-While we have not implemented back-ends in Node.js previously, the application requires minimal back-end functionality, so we identify this as a good opportunity to learn the framework.
+While we have not implemented back-ends in Node.js previously, the application requires minimal back-end functionality, so we identify this as a good opportunity to learn the library.
 
 The front-end will be implemented within the React/Redux framework. Between us, we've enough experience that we foresee little issue here, as well.
 
-Research will be needed to understand quad tree implementation, i.e. traversal, insertion, & invariants.
+Research will be needed to understand the quad tree implementation, i.e. traversal, insertion, & invariants.
 We will need to review statistical variance to figure out how to assess whether an image quadrant needs to be further decomposed by the QT.
 
 We will need to learn the D3.js library for rendering. Dividing images strongly suggests a need for vector graphics and we've found examples within the endorsed example list suggesting suitability for this project.  
@@ -64,3 +64,4 @@ We will need to learn the D3.js library for rendering. Dividing images strongly 
 
 [landing]: (./docs/wireframes/landing.png)
 [application]: (./docs/wireframes/application.png)
+[trello]:(trello.com)
