@@ -24,7 +24,7 @@ through the Cloudinary API and key a list of such uploads to a given user with d
 
 **Landing Page**
 
-![landing](docs/wireframes/application.png)
+![landing](docs/wireframes/landing.png)
 
 **App Page**
 
