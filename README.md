@@ -14,17 +14,17 @@ QuadKompressor will allow users to upload their own image to the application
 through the Cloudinary API and key a list of such uploads to a given user with data stored in user cookies. It will utilize a quad-tree data structure to decompose and normalize an image by like color
 
 ## MVP Features
+
 - [ ] Cloudinary Upload
-- [ ] Minimal Node.js back-end to bootstrap Cloudinary API keys and to store and serve up user Cloudinary image `public_id`s.
+- [ ] Minimal Node.js back-end to bootstrap Cloudinary API
 - [ ] Gallery view of user images below compressor component.
-- [ ] Compression of uploaded images using quad-tree structure grouping pixels by acceptable variance from chromatic mean.
-- [ ] Figure out how to do listed check-boxes in markdown.
+- [ ] Compression of uploaded images using quad-tree structure.
 
 ## Wire-frames
 
 **Landing Page**
 
-![landing](docs/wireframes/application.png)
+![landing](docs/wireframes/landing.png)
 
 **App Page**
 
