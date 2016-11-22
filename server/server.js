@@ -76,7 +76,6 @@ app.post('/images', urlEncoder, (req, res) => {
 });
 
 app.get('/images/:userId', function(req, res){
-  console.log("Server Env: ", process.env.CLOUD_NAME);
   var userId = req.params.userId;
 
   MongoClient.connect(url,
