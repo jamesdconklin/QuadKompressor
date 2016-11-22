@@ -5,9 +5,17 @@ import logger from 'morgan';
 import assert from 'assert';
 import MongoDB from 'mongodb';
 import bodyParser from 'body-parser';
+import figaro from 'figaro';
+import hbs from 'hbs'
+
+
+figaro.parse(null, (err) => err && process.exit());
 
 const MongoClient = MongoDB.MongoClient;
 var url = 'mongodb://localhost:27017/QTK';
+
+hbs.registerPartials(__dirname + '/hbs')
+app.set('view engine', 'hbsb')
 
 
 function findImages(db, id, callback) {
@@ -41,7 +49,15 @@ app.get('/', function(req, res){
 });
 
 app.get('/app', function(req, res){
-  res.sendFile(path.resolve('../frontend/index.html'));
+  let {CLOUD_NAME, API_KEY, API_SECRET} = process.env
+
+  res.render('index.hbs', {
+    options: {
+      CLOUD_NAME,
+      API_KEY,
+      API_SECRET
+    }
+  });
 });
 
 app.post('/images', urlEncoder, (req, res) => {
