@@ -4,6 +4,7 @@ import path from 'path';
 import logger from 'morgan';
 import assert from 'assert';
 import MongoDB from 'mongodb';
+import bodyParser from 'body-parser';
 
 const MongoClient = MongoDB.MongoClient;
 var url = 'mongodb://localhost:27017/QTK';
@@ -11,17 +12,28 @@ var url = 'mongodb://localhost:27017/QTK';
 
 function findImages(db, id, callback) {
   var collection = db.collection('images');
-  collection.find({userid: id}).toArray(
+  collection.find({user_id: id}).toArray(
     (err, images) => {
       assert.equal(err, null);
-      console.log(`Found images for given userId: ${id}`);
+      console.log(`Found images for given user_id: ${id}`);
       console.log(images);
       callback(images);
     }
   );
 }
 
+function postImages(db, params, callback) {
+  var collection = db.collection('images');
+  collection.insert(params, {}, (err, images) => {
+    assert.equal(err, null);
+    console.log(`Inserted image with public_id ${params.public_id} for user_id ${params.user_id}`);
+    callback(images);
+  });
+}
+
 app.use(logger('dev'));
+const urlEncoder = bodyParser.urlencoded({ extended: false })
+
 app.use(express.static('server/static'));
 
 app.get('/', function(req, res){
@@ -30,6 +42,21 @@ app.get('/', function(req, res){
 
 app.get('/app', function(req, res){
   res.sendFile(path.resolve('../frontend/index.html'));
+});
+
+app.post('/images', urlEncoder, (req, res) => {
+  var body = req.body;
+
+
+  MongoClient.connect(url,
+    (err, db) => {
+      assert.equal(err, null);
+      postImages(db, body, (image) => {
+        db.close();
+        res.send(image.ops[0]);
+      });
+    }
+  );
 });
 
 app.get('/images/:userId', function(req, res){
