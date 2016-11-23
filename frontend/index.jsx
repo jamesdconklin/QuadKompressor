@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Root from './components/root';
-import configureStore from './store/store';
+import Root from 'Root';
+import configureStore from 'Store';
 
 import {getAllImages, postImage} from 'ImagesUtils'
 

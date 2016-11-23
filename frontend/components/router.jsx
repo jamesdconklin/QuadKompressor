@@ -3,8 +3,7 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import Landing from 'LandingComponent';
 import ShowcaseContainer from 'ShowcaseContainer';
 
-// import components here
-import App from './app';
+import App from 'AppComponent';
 
 
 class AppRouter extends React.Component{
