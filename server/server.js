@@ -44,19 +44,20 @@ const urlEncoder = bodyParser.urlencoded({ extended: false })
 
 app.use(express.static(path.join(__dirname,'static')));
 
-app.get('/', function(req, res){
-  //NOTE: change this path
-  res.sendFile(path.resolve('../frontend/index.html'));
-});
+// app.get('/', function(req, res){
+//   //NOTE: change this path
+//   res.sendFile(path.resolve('../frontend/index.html'));
+// });
 
-app.get('/app', function(req, res){
-  let {CLOUD_NAME, API_KEY, API_SECRET} = process.env
+app.get('/', function(req, res){
+  let {CLOUD_NAME, API_KEY, API_SECRET, UPLOAD_PRESET} = process.env
 
   res.render('index.hbs', {
     options: {
       CLOUD_NAME,
       API_KEY,
-      API_SECRET
+      API_SECRET,
+      UPLOAD_PRESET
     }
   });
 });

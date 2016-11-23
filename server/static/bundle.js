@@ -58,11 +58,11 @@
 	
 	var _root2 = _interopRequireDefault(_root);
 	
-	var _store = __webpack_require__(272);
+	var _store = __webpack_require__(274);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _ImagesUtils = __webpack_require__(280);
+	var _ImagesUtils = __webpack_require__(283);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -23283,7 +23283,15 @@
 	
 	var _reactRouter = __webpack_require__(210);
 	
-	var _app = __webpack_require__(271);
+	var _LandingComponent = __webpack_require__(271);
+	
+	var _LandingComponent2 = _interopRequireDefault(_LandingComponent);
+	
+	var _ShowcaseContainer = __webpack_require__(272);
+	
+	var _ShowcaseContainer2 = _interopRequireDefault(_ShowcaseContainer);
+	
+	var _app = __webpack_require__(273);
 	
 	var _app2 = _interopRequireDefault(_app);
 	
@@ -23316,7 +23324,8 @@
 	        _react2.default.createElement(
 	          _reactRouter.Route,
 	          { path: '/', component: _app2.default },
-	          '// Routes go here'
+	          _react2.default.createElement(_reactRouter.IndexRoute, { component: _LandingComponent2.default }),
+	          _react2.default.createElement(_reactRouter.Route, { path: '/showcase', component: _ShowcaseContainer2.default })
 	        )
 	      );
 	    }
@@ -28881,6 +28890,98 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Landing = function (_React$Component) {
+	  _inherits(Landing, _React$Component);
+	
+	  function Landing() {
+	    _classCallCheck(this, Landing);
+	
+	    return _possibleConstructorReturn(this, (Landing.__proto__ || Object.getPrototypeOf(Landing)).apply(this, arguments));
+	  }
+	
+	  _createClass(Landing, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'I am the landing!'
+	      );
+	    }
+	  }]);
+	
+	  return Landing;
+	}(_react2.default.Component);
+	
+	exports.default = Landing;
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(179);
+	
+	var _ShowcaseComponent = __webpack_require__(284);
+	
+	var _ShowcaseComponent2 = _interopRequireDefault(_ShowcaseComponent);
+	
+	var _ImagesActions = __webpack_require__(280);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapStateToProps = function mapStateToProps(_ref) {
+	  var images = _ref.images,
+	      user = _ref.user;
+	  return {
+	    gallery: images.gallery,
+	    currentImage: images.currentImage,
+	    user: user
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchAllImages: function fetchAllImages(user) {
+	      return dispatch((0, _ImagesActions.fetchAllImages)(user));
+	    },
+	    createImage: function createImage(image) {
+	      return dispatch((0, _ImagesActions.createImage)(image));
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_ShowcaseComponent2.default);
+
+/***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _reactRouter = __webpack_require__(210);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -28901,12 +29002,28 @@
 	  }
 	
 	  _createClass(App, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // if (document.cookie) {
+	      //   return;
+	      // } else {
+	      //   let alphabet = (
+	      //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+	      //   );
+	      //   let newUser = ""
+	      //   while (newUser.length < 64) {
+	      //     newUser += alphabet[Math.floor(Math.random() * alphabet.length)]
+	      //   }
+	      //   document.cookie = newUser
+	      // }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'Welcome to your new Eos app'
+	        this.props.children
 	      );
 	    }
 	  }]);
@@ -28917,7 +29034,7 @@
 	exports.default = (0, _reactRouter.withRouter)(App);
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28928,11 +29045,11 @@
 	
 	var _redux = __webpack_require__(186);
 	
-	var _root_reducer = __webpack_require__(273);
+	var _root_reducer = __webpack_require__(275);
 	
 	var _root_reducer2 = _interopRequireDefault(_root_reducer);
 	
-	var _master_middleware = __webpack_require__(277);
+	var _master_middleware = __webpack_require__(281);
 	
 	var _master_middleware2 = _interopRequireDefault(_master_middleware);
 	
@@ -28946,7 +29063,7 @@
 	exports.default = configureStore;
 
 /***/ },
-/* 273 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28957,11 +29074,11 @@
 	
 	var _redux = __webpack_require__(186);
 	
-	var _UserReducer = __webpack_require__(274);
+	var _UserReducer = __webpack_require__(276);
 	
 	var _UserReducer2 = _interopRequireDefault(_UserReducer);
 	
-	var _ImagesReducer = __webpack_require__(278);
+	var _ImagesReducer = __webpack_require__(279);
 	
 	var _ImagesReducer2 = _interopRequireDefault(_ImagesReducer);
 	
@@ -28975,7 +29092,7 @@
 	exports.default = RootReducer;
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28984,9 +29101,9 @@
 	  value: true
 	});
 	
-	var _UserActions = __webpack_require__(275);
+	var _UserActions = __webpack_require__(277);
 	
-	var _lodash = __webpack_require__(276);
+	var _lodash = __webpack_require__(278);
 	
 	var UserReducer = function UserReducer() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { user: "" };
@@ -29004,7 +29121,7 @@
 	exports.default = UserReducer;
 
 /***/ },
-/* 275 */
+/* 277 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -29022,7 +29139,7 @@
 	};
 
 /***/ },
-/* 276 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -46094,7 +46211,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(200)(module)))
 
 /***/ },
-/* 277 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46103,33 +46220,9 @@
 	  value: true
 	});
 	
-	var _redux = __webpack_require__(186);
+	var _ImagesActions = __webpack_require__(280);
 	
-	var _ImagesMiddleware = __webpack_require__(281);
-	
-	var _ImagesMiddleware2 = _interopRequireDefault(_ImagesMiddleware);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
-	
-	var masterMiddleware = composeEnhancers((0, _redux.applyMiddleware)(_ImagesMiddleware2.default));
-	
-	exports.default = masterMiddleware;
-
-/***/ },
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _ImagesActions = __webpack_require__(279);
-	
-	var _lodash = __webpack_require__(276);
+	var _lodash = __webpack_require__(278);
 	
 	var defaultState = {
 	  currentImage: "",
@@ -46154,7 +46247,7 @@
 	exports.default = ImagesReducer;
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -46196,33 +46289,6 @@
 	};
 
 /***/ },
-/* 280 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var getAllImages = exports.getAllImages = function getAllImages(user, success, error) {
-	  $.ajax({
-	    url: "images/" + user,
-	    method: "GET",
-	    success: success || console.log,
-	    error: error || console.log
-	  });
-	};
-	var postImage = exports.postImage = function postImage(image, success, error) {
-	  $.ajax({
-	    url: "images",
-	    method: "POST",
-	    data: image,
-	    success: success || console.log,
-	    error: error || console.log
-	  });
-	};
-
-/***/ },
 /* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -46232,9 +46298,33 @@
 	  value: true
 	});
 	
-	var _ImagesUtils = __webpack_require__(280);
+	var _redux = __webpack_require__(186);
 	
-	var _ImagesActions = __webpack_require__(279);
+	var _ImagesMiddleware = __webpack_require__(282);
+	
+	var _ImagesMiddleware2 = _interopRequireDefault(_ImagesMiddleware);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
+	
+	var masterMiddleware = composeEnhancers((0, _redux.applyMiddleware)(_ImagesMiddleware2.default));
+	
+	exports.default = masterMiddleware;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _ImagesUtils = __webpack_require__(283);
+	
+	var _ImagesActions = __webpack_require__(280);
 	
 	var ImagesMiddleware = function ImagesMiddleware(_ref) {
 	  var dispatch = _ref.dispatch;
@@ -46262,6 +46352,109 @@
 	};
 	
 	exports.default = ImagesMiddleware;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var getAllImages = exports.getAllImages = function getAllImages(user, success, error) {
+	  $.ajax({
+	    url: "images/" + user,
+	    method: "GET",
+	    success: success || console.log,
+	    error: error || console.log
+	  });
+	};
+	var postImage = exports.postImage = function postImage(image, success, error) {
+	  $.ajax({
+	    url: "images",
+	    method: "POST",
+	    data: image,
+	    success: success || console.log,
+	    error: error || console.log
+	  });
+	};
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Showcase = function (_React$Component) {
+	  _inherits(Showcase, _React$Component);
+	
+	  function Showcase(props) {
+	    _classCallCheck(this, Showcase);
+	
+	    var _this = _possibleConstructorReturn(this, (Showcase.__proto__ || Object.getPrototypeOf(Showcase)).call(this, props));
+	
+	    _this.state = {};
+	    _this.cloudUpdate = _this.cloudUpdate.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Showcase, [{
+	    key: 'cloudUpdate',
+	    value: function cloudUpdate(e) {
+	      var _this2 = this;
+	
+	      e.preventDefault();
+	      cloudinary.openUploadWidget(window.c_o, function (error, images) {
+	        if (error === null) {
+	          debugger;
+	          _this2.setState({ picture_url: images[0].url });
+	          // $('.upload-container').css("background-image", `url(${this.state.picture_url})`)
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'And I am the showcase'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.cloudUpdate },
+	          'PRESS ME'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Showcase;
+	}(_react2.default.Component);
+	
+	exports.default = Showcase;
 
 /***/ }
 /******/ ]);
