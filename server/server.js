@@ -42,9 +42,10 @@ function postImages(db, params, callback) {
 app.use(logger('dev'));
 const urlEncoder = bodyParser.urlencoded({ extended: false })
 
-app.use(express.static('server/static'));
+app.use(express.static(path.join(__dirname,'static')));
 
 app.get('/', function(req, res){
+  //NOTE: change this path
   res.sendFile(path.resolve('../frontend/index.html'));
 });
 
