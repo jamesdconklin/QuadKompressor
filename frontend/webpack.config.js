@@ -7,6 +7,19 @@ const path = require('path');
     filename: 'bundle.js'
   },
   resolve: {
+    root: __dirname,
+    alias: {
+      AppComponent: "components/app.jsx",
+      ImagesActions: "actions/images_actions.js",
+      ImagesMiddleware: "middleware/images_middleware.js",
+      ImagesReducer: "reducers/images_reducer.js",
+      ImagesUtils: "util/images_utils.js",
+      LandingComponent: "components/landing/landing.jsx",
+      ShowcaseComponent: "components/showcase/showcase.jsx",
+      ShowcaseContainer: "components/showcase/showcase_container.js",
+      UserActions: "actions/user_actions.js",
+      UserReducer: "reducers/user_reducer.js"
+    },
     extensions: ['', '.js', '.jsx']
   },
   module: {

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
+import Landing from 'LandingComponent';
+import ShowcaseContainer from 'ShowcaseContainer';
 
 // import components here
 import App from './app';
@@ -14,7 +16,8 @@ class AppRouter extends React.Component{
   	return (
   		<Router history={hashHistory}>
         <Route path="/" component={ App }>
-          // Routes go here
+          <IndexRoute component={Landing}/>
+          <Route path="/showcase" component={ ShowcaseContainer }/>
         </Route>
   		</Router>
   	);
