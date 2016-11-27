@@ -12,7 +12,7 @@ import {
 } from 'ImagesActions'
 
 
-const ImagesMiddleware = ({dispatch}) => (next) => (action) => {
+const ImagesMiddleware = ({dispatch, getState}) => (next) => (action) => {
   let receiveImageSuccess = (image) => dispatch(receiveImage(image))
   let receiveAllImagesSuccess = (images) => dispatch(receiveAllImages(images))
 
@@ -21,7 +21,10 @@ const ImagesMiddleware = ({dispatch}) => (next) => (action) => {
       getAllImages(action.user, receiveAllImagesSuccess)
       return next(action) ;
       case CREATE_IMAGE:
-      postImage(action.image, receiveImageSuccess)
+      postImage(action.image, (image) => {
+        dispatch(receiveImage(image))
+        dispatch(receiveAllImages(getState().images.gallery.concat(image)))
+      })
       return next(action) ;
     default:
       return next(action);
