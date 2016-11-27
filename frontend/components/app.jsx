@@ -7,20 +7,6 @@ class App extends React.Component {
     super(props);
   }
 
-  componentDidMount() {
-    // if (document.cookie) {
-    //   return;
-    // } else {
-    //   let alphabet = (
-    //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
-    //   );
-    //   let newUser = ""
-    //   while (newUser.length < 64) {
-    //     newUser += alphabet[Math.floor(Math.random() * alphabet.length)]
-    //   }
-    //   document.cookie = newUser
-    // }
-  }
 
   render() {
     return (
