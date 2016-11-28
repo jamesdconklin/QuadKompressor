@@ -21,25 +21,6 @@ class QTNode {
       this.color = average;
     }
 
-    this.promiseActions(average, variance, pixels, x, y, dim).then(result => {
-      console.log("result: ", result)
-    }, (errMessage) => {
-      console.log('Error, ', errMessage)
-    });
-
-  }
-
-  promiseActions(average, variance, pixels, x, y, dim) {
-    console.log('promiseActions is called')
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if ( variance > THRESHOLD) {
-          resolve(`logging for x: ${x} y: ${y}`)
-        } else {
-          reject(`this hit for the break case or an error`)
-        }
-      }, 300);
-    });
   }
 
   chromaticDifference(v1, v2) {
