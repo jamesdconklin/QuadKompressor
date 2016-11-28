@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import {CloudinaryImage, cloudinaryConfig} from 'react-cloudinary'
 import Cookies from 'cookies-js'
+import QTNode from 'QTNode'
 
 
 class Showcase extends React.Component {
@@ -9,6 +10,7 @@ class Showcase extends React.Component {
     this.state = {dimension: 512, tree: null, raw_img: null};
     this.cloudUpdate = this.cloudUpdate.bind(this);
     this.loadImage = this.loadImage.bind(this);
+    this.buildQuadTree = this.buildQuadTree.bind(this);
   }
 
   componentDidMount() {
@@ -25,47 +27,6 @@ class Showcase extends React.Component {
     }
   }
 
-  chromaticDifference(v1, v2) {
-    let redDiff = Math.pow(v1.red-v2.red, 2),
-        greenDiff = Math.pow(v1.green-v2.green, 2),
-        blueDiff = Math.pow(v1.blue-v2.blue, 2);
-
-    let diff = redDiff + greenDiff + blueDiff;
-
-    return diff;
-  }
-
-  chromaticVariance(pixels, x0, y0, dim) {
-    let redBar = 0, greenBar = 0, blueBar = 0;
-
-    for (var x = x0; x < x0+dim; x++) {
-      for (var y = y0; y < y0+dim; y++) {
-        let { red, green, blue } = pixels[x][y];
-        redBar += red; greenBar += green, blueBar += blue;
-      }
-    }
-    let count = Math.pow(dim, 2);
-    redBar /= count;
-    greenBar /= count;
-    blueBar /= count;
-
-    let colorBar = {
-      red: redBar,
-      green: greenBar,
-      blue: blueBar
-    };
-
-    let summedSquares = 0;
-
-    for (var x = x0; x < x0+dim; x++) {
-      for (var y = y0; y < y0+dim; y++) {
-        summedSquares += this.chromaticDifference(colorBar, pixels[x][y]);
-      }
-    }
-    return summedSquares / count;
-
-  }
-
   buildQuadTree(ctx, dim) {
     let pixels = [];
     for (var x = 0; x < dim; x++) {
@@ -80,10 +41,8 @@ class Showcase extends React.Component {
         });
       }
     }
-    // TODO: Remove testing code.
-    window.testQT = (x, y, dim) => {
-      console.log(this.chromaticVariance(pixels, x, y, dim));
-    }
+    let root = new QTNode(pixels, 0, 0, dim);
+    this.setState({tree: root});
   }
 
   loadImage(newProps) {
