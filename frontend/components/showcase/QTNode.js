@@ -1,10 +1,11 @@
-const THRESHOLD = 500;
+const THRESHOLD = 50;
 
 class QTNode {
-  constructor(pixels, x, y, dim) {
+  constructor(pixels, x, y, dim, quadrant) {
     this.x = x;
     this.y = y;
     this.dim = dim;
+    this.quadrant = quadrant;
 
     this.color = null;
     // idx 0 -> NW. Increases clockwise.
@@ -13,44 +14,199 @@ class QTNode {
     let { average, variance } = this.chromaticAnalysis(pixels, x, y, dim);
 
     if ( variance > THRESHOLD) {
-      this.children.push(new QTNode(pixels, x, y, dim/2));
-      this.children.push(new QTNode(pixels, x+dim/2, y, dim/2));
-      this.children.push(new QTNode(pixels, x+dim/2, y+dim/2, dim/2));
-      this.children.push(new QTNode(pixels, x, y+dim/2, dim/2));
+      this.children.push(new QTNode(pixels, x, y, dim/2, 0 || [-1, -1]));
+      this.children.push(new QTNode(pixels, x+dim/2, y, dim/2, 0 || [1, -1]));
+      this.children.push(new QTNode(pixels, x+dim/2, y+dim/2, dim/2, 0 || [1,1]));
+      this.children.push(new QTNode(pixels, x, y+dim/2, dim/2, 0 || [-1, 1]));
     } else {
       this.color = average;
     }
   }
 
-  draw(ctx) {
-    let {fillStyle} = ctx
-    let timeout = 300
-    if (this.children.length) {
-      this.children.forEach((child) => {
-        setTimeout(() =>{
-          child.draw(ctx)
-        }, timeout);
-        timeout += 300
-      })
-    } else {
-      setTimeout(() => {
-
-        ctx.beginPath()
-        let colorStr = this.colorString()
-        ctx.fillStyle = colorStr
-        ctx.rect(this.x, this.y, this.dim, this.dim)
-        ctx.fill()
-        ctx.fillStyle = fillStyle
-
-      }, timeout);
+  drawCollapse(ctx, color) {
+    for (var i = 0; i <= this.dim/2; i++) {
+      let { fillStyle } = ctx;
+      let j = i;
+      setTimeout(
+        () => {
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          this.drawCollapseIteration(ctx, j);
+          ctx.fillStyle = fillStyle;
+        },
+        j*25-25
+      );
     }
   }
 
+  drawCollapseIteration(ctx, iteration) {
+    ctx.rect(
+      this.x,
+      this.y,
+      this.dim,
+      this.dim
+    );
+
+    ctx.fill();
+
+    ctx.clearRect(
+      this.x + iteration,
+      this.y + iteration,
+      this.dim - 2 * iteration,
+      this.dim - 2 * iteration
+    );
+  }
+
+  drawExplode(ctx, color) {
+    for (var i = 0; i <= this.dim/2; i++) {
+      let { fillStyle } = ctx;
+      let j = i;
+      setTimeout(
+        () => {
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          this.drawExplodeIteration(ctx, j);
+          ctx.fillStyle = fillStyle;
+        },
+        j*25-25
+      );
+    }
+  }
+
+  drawExplodeIteration(ctx, iteration) {
+    ctx.rect(
+      this.x + Math.floor(this.dim/2) - iteration,
+      this.y + Math.floor(this.dim/2) - iteration,
+      iteration * 2,
+      iteration * 2
+    );
+    ctx.fill();
+  }
+
+  drawFade(ctx, color) {
+    for (var i = 1; i <= 20; i++) {
+      let { fillStyle, globalAlpha } = ctx;
+      let j = i;
+      setTimeout(
+        () => {
+          ctx.globalAlpha = j * .05;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          this.drawFadeIteration(ctx);
+          ctx.fillStyle = fillStyle;
+          ctx.globalAlpha = globalAlpha;
+        },
+        j*50-50
+      );
+    }
+  }
+
+  drawFadeIteration(ctx) {
+    ctx.rect(
+      this.x,
+      this.y,
+      this.dim,
+      this.dim
+    );
+    ctx.fill();
+  }
+
+  drawRadialOut(ctx, color) {
+    for (var i = 1; i <= this.dim; i++) {
+      let { fillStyle } = ctx;
+      let j = i;
+      setTimeout(
+        () => {
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          this.drawRadialOutIteration(ctx, j);
+          ctx.fillStyle = fillStyle;
+        },
+        j*25-25
+      );
+    }
+  }
+
+  drawRadialOutIteration(ctx, iteration) {
+    let x_o = this.quadrant[0] < 0 ? this.x - iteration + this.dim : this.x;
+    let y_o = this.quadrant[1] < 0 ? this.y - iteration + this.dim : this.y;
+
+    ctx.rect(
+      x_o,
+      y_o,
+      iteration,
+      iteration
+    );
+    ctx.fill();
+  }
+  drawRadialIn(ctx, color) {
+    for (var i = 1; i <= this.dim; i++) {
+      let { fillStyle } = ctx;
+      let j = i;
+      setTimeout(
+        () => {
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          this.drawRadialInIteration(ctx, j);
+          ctx.fillStyle = fillStyle;
+        },
+        j*25-25
+      );
+    }
+  }
+
+  drawRadialInIteration(ctx, iteration) {
+    let x_o = this.quadrant[0] > 0 ? this.x - iteration + this.dim : this.x;
+    let y_o = this.quadrant[1] > 0 ? this.y - iteration + this.dim : this.y;
+
+    ctx.rect(
+      x_o,
+      y_o,
+      iteration,
+      iteration
+    );
+    ctx.fill();
+  }
+
+
+  draw(ctx) {
+    let timeout = 0;
+    let { fillStyle, globalAlpha, lineWidth } = ctx;
+    if (this.children.length) {
+      this.children.forEach((child) => {
+        setTimeout(() =>{
+          child.draw(ctx);
+        }, timeout);
+        timeout += 250;
+      });
+    } else {
+      let colorStr = this.colorString();
+        if (this.dim > 1) {
+
+          this.drawRadialOut(ctx, colorStr);
+
+        } else {
+          ctx.beginPath();
+          ctx.fillStyle = colorStr;
+          ctx.rect(
+            this.x,
+            this.y,
+            1,
+            1
+          );
+          ctx.fill();
+          ctx.fillStyle = fillStyle;
+
+        }
+    }
+
+  }
+
   colorString () {
-    let {red, green, blue} = this.color
-    red = Math.floor(red).toString(16)
-    green = Math.floor(green).toString(16)
-    blue = Math.floor(blue).toString(16)
+    let {red, green, blue} = this.color;
+    red = Math.floor(red).toString(16);
+    green = Math.floor(green).toString(16);
+    blue = Math.floor(blue).toString(16);
 
     for (; red.length < 2; red = "0" + red);
     for (; green.length < 2; green = "0" + green);

@@ -41,12 +41,12 @@ class Showcase extends React.Component {
         });
       }
     }
-    let root = new QTNode(pixels, 0, 0, dim, ctx);
-    window.root = root
-    window.ctx = ctx
+    let root = new QTNode(pixels, 0, 0, dim);
+    window.root = root;
+    window.ctx = ctx;
     window.render = () => {
-      ctx.clearRect(0,0,dim,dim)
-    }
+      ctx.clearRect(0,0,dim,dim);
+    };
     this.setState({tree: root});
   }
 

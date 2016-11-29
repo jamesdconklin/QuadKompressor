@@ -1,17 +1,17 @@
 import {
   RECEIVE_IMAGE,
   RECEIVE_ALL_IMAGES
-} from 'ImagesActions'
+} from 'ImagesActions';
 
-import { merge } from 'lodash'
+import { merge } from 'lodash';
 
 const defaultState = {
-  currentImage: {public_id: 'lgntvqchmmcehqrvuxd3', dimension: 512},
+  currentImage: {public_id: 'o8hbsltnvvxrrub5k8qb', dimension: 512*2},
   gallery: {}
-}
+};
 
 const ImagesReducer = (state = defaultState, action) => {
-Object.freeze(state)
+Object.freeze(state);
   switch (action.type) {
     case RECEIVE_IMAGE:
       return merge({}, state, {currentImage: action.image});
@@ -20,7 +20,6 @@ Object.freeze(state)
     default:
       return state;
   }
-}
+};
 
-
-export default ImagesReducer
+export default ImagesReducer;
