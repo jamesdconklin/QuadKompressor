@@ -20,16 +20,51 @@ class QTNode {
     } else {
       this.color = average;
     }
-
   }
 
+  draw(ctx) {
+    let {fillStyle} = ctx
+    let timeout = 300
+    if (this.children.length) {
+      this.children.forEach((child) => {
+        setTimeout(() =>{
+          child.draw(ctx)
+        }, timeout);
+        timeout += 300
+      })
+    } else {
+      setTimeout(() => {
+
+        ctx.beginPath()
+        let colorStr = this.colorString()
+        ctx.fillStyle = colorStr
+        ctx.rect(this.x, this.y, this.dim, this.dim)
+        ctx.fill()
+        ctx.fillStyle = fillStyle
+
+      }, timeout);
+    }
+  }
+
+  colorString () {
+    let {red, green, blue} = this.color
+    red = Math.floor(red).toString(16)
+    green = Math.floor(green).toString(16)
+    blue = Math.floor(blue).toString(16)
+
+    for (; red.length < 2; red = "0" + red);
+    for (; green.length < 2; green = "0" + green);
+    for (; blue.length < 2; blue = "0" + blue);
+    return `#${red}${green}${blue}`;
+  }
+
+
   chromaticDifference(v1, v2) {
-    let redDiff = v1.red-v2.red,
-        greenDiff = v1.green-v2.green,
-        blueDiff = v1.blue-v2.blue;
+    let redDiff = Math.pow(v1.red-v2.red, 2),
+        greenDiff = Math.pow(v1.green-v2.green, 2),
+        blueDiff = Math.pow(v1.blue-v2.blue, 2);
 
     let diff = redDiff + greenDiff + blueDiff;
-    console.log()
     return diff;
   }
 
@@ -52,7 +87,7 @@ class QTNode {
       green: greenBar,
       blue: blueBar
     };
-    debugger
+
     let summedSquares = 0;
 
     for (var x = x0; x < x0+dim; x++) {
@@ -60,7 +95,6 @@ class QTNode {
         summedSquares += this.chromaticDifference(colorBar, pixels[x][y]);
       }
     }
-
     return {
       average: colorBar,
       variance: summedSquares / count
