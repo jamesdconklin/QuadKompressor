@@ -19,73 +19,44 @@ class QTNode {
       this.children.push(new QTNode(pixels, x, y+dim/2, dim/2));
     } else {
       this.color = average;
-
     }
-
   }
 
-    draw(ctx) {
-      let {fillStyle} = ctx
-      let timeout = 300
-      if (this.children.length) {
-        this.children.forEach((child) => {
-          setTimeout(() =>{
-            child.draw(ctx)
-          }, timeout);
-          timeout += 300
-        })
-      } else {
-        setTimeout(() => {
-
-          ctx.beginPath()
-          let colorStr = this.colorString()
-          ctx.fillStyle = colorStr
-          ctx.rect(this.x, this.y, this.dim, this.dim)
-          ctx.fill()
-          ctx.fillStyle = fillStyle
-
+  draw(ctx) {
+    let {fillStyle} = ctx
+    let timeout = 300
+    if (this.children.length) {
+      this.children.forEach((child) => {
+        setTimeout(() =>{
+          child.draw(ctx)
         }, timeout);
+        timeout += 300
+      })
+    } else {
+      setTimeout(() => {
 
-      }
+        ctx.beginPath()
+        let colorStr = this.colorString()
+        ctx.fillStyle = colorStr
+        ctx.rect(this.x, this.y, this.dim, this.dim)
+        ctx.fill()
+        ctx.fillStyle = fillStyle
 
+      }, timeout);
     }
+  }
 
-    colorString () {
-      let {red, green, blue} = this.color
-      red = Math.floor(red).toString(16)
-      green = Math.floor(green).toString(16)
-      blue = Math.floor(blue).toString(16)
+  colorString () {
+    let {red, green, blue} = this.color
+    red = Math.floor(red).toString(16)
+    green = Math.floor(green).toString(16)
+    blue = Math.floor(blue).toString(16)
 
-      for (; red.length < 2; red = "0" + red);
-      for (; green.length < 2; green = "0" + green);
-      for (; blue.length < 2; blue = "0" + blue);
-      return `#${red}${green}${blue}`;
-    }
-
-    promiseActions(variance, average, pixels, x, y, dim) {
-      // return new Promise((resolve, reject) => {
-      //   setTimeout(() => {
-      //     if ( variance > THRESHOLD) {
-      //       this.children.push(new QTNode(pixels, x, y, dim/2, this.ctx));
-      //       this.children.push(new QTNode(pixels, x+dim/2, y, dim/2, this.ctx));
-      //       this.children.push(new QTNode(pixels, x+dim/2, y+dim/2, dim/2, this.ctx));
-      //       this.children.push(new QTNode(pixels, x, y+dim/2, dim/2, this.ctx));
-      //       resolve(`this is x: ${x} and this is y ${y}`)
-      //     } else {
-      //       this.color = average;
-      //       // reject(this.draw)
-      //       this.draw()
-      //       reject(`this is where I would do something else, like setting the color`)
-      //     }
-      //   }, 300);
-      // });
-    }
-
-
-
-
-
-
+    for (; red.length < 2; red = "0" + red);
+    for (; green.length < 2; green = "0" + green);
+    for (; blue.length < 2; blue = "0" + blue);
+    return `#${red}${green}${blue}`;
+  }
 
 
   chromaticDifference(v1, v2) {
@@ -94,7 +65,6 @@ class QTNode {
         blueDiff = Math.pow(v1.blue-v2.blue, 2);
 
     let diff = redDiff + greenDiff + blueDiff;
-
     return diff;
   }
 
