@@ -1,1 +1,4 @@
 bundle.js.*
+*.compact.css
+bootstrap.css
+bootstrap-theme.css
