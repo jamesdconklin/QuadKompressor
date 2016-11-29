@@ -1,4 +1,4 @@
-const THRESHOLD = 500;
+const THRESHOLD = 100;
 
 class QTNode {
   constructor(pixels, x, y, dim) {
@@ -26,26 +26,49 @@ class QTNode {
 
     draw(ctx) {
       let {fillStyle} = ctx
-      let timeout = 300
+      let timeout = 0
       if (this.children.length) {
         this.children.forEach((child) => {
           setTimeout(() =>{
             child.draw(ctx)
           }, timeout);
-          timeout += 300
+          timeout += 250;
         })
       } else {
-        setTimeout(() => {
+        let colorStr = this.colorString();
+          if (this.dim > 1) {
+            for (var i = 1; i <= this.dim/2; i++) {
+              let j = i;
+              setTimeout(
+                () => {
+                  ctx.beginPath();
+                  ctx.fillStyle = colorStr;
+                  ctx.rect(
+                    this.x + Math.floor(this.dim/2) - j,
+                    this.y + Math.floor(this.dim/2) - j,
+                    j * 2,
+                    j * 2
+                  );
+                  ctx.fill();
+                  ctx.fillStyle = fillStyle;
+                },
+                j*25-25
+              );
+            }
 
-          ctx.beginPath()
-          let colorStr = this.colorString()
-          ctx.fillStyle = colorStr
-          ctx.rect(this.x, this.y, this.dim, this.dim)
-          ctx.fill()
-          ctx.fillStyle = fillStyle
+          } else {
+            ctx.beginPath();
+            ctx.fillStyle = colorStr;
+            ctx.rect(
+              this.x,
+              this.y,
+              1,
+              1
+            );
+            ctx.fill();
+            ctx.fillStyle = fillStyle;
 
-        }, timeout);
-
+          }
       }
 
     }
