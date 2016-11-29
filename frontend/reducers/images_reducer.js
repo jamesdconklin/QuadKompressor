@@ -6,7 +6,7 @@ import {
 import { merge } from 'lodash'
 
 const defaultState = {
-  currentImage: {public_id: 'bla75ugquxblitkmxamb', dimension: 512},
+  currentImage: {public_id: 'lgntvqchmmcehqrvuxd3', dimension: 512},
   gallery: {}
 }
 
