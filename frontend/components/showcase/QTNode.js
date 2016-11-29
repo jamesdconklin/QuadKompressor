@@ -1,4 +1,4 @@
-const THRESHOLD = 100;
+const THRESHOLD = 500;
 
 class QTNode {
   constructor(pixels, x, y, dim) {
