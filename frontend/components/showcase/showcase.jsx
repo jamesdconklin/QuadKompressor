@@ -41,7 +41,12 @@ class Showcase extends React.Component {
         });
       }
     }
-    let root = new QTNode(pixels, 0, 0, dim);
+    let root = new QTNode(pixels, 0, 0, dim, ctx);
+    window.root = root
+    window.ctx = ctx
+    window.render = () => {
+      ctx.clearRect(0,0,dim,dim)
+    }
     this.setState({tree: root});
   }
 
@@ -58,10 +63,7 @@ class Showcase extends React.Component {
         crop: "scale",
       }
     )[0];
-    // cloud_img.crossOrigin = "Anonymous";
 
-    // let cloud_img = new Image
-    // cloud_img.src = "http://res.cloudinary.com/loren-losch/image/upload/v1480282613/bla75ugquxblitkmxamb.png"
     cloud_img.onload = () => {
       let ctx = document.getElementById('tableau').getContext('2d')
       ctx.drawImage(
