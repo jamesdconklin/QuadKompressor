@@ -108,7 +108,7 @@ class Showcase extends React.Component {
     return (
       <div>
         <div>And I am the showcase</div>
-        <button onClick={this.cloudUpdate}>PRESS ME</button>
+        <button className="btn-primary" onClick={this.cloudUpdate}>PRESS ME</button>
         <canvas id="tableau">Canvas is here</canvas>
       </div>
     )
