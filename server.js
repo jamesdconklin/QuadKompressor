@@ -6,16 +6,17 @@ import assert from 'assert';
 import MongoDB from 'mongodb';
 import bodyParser from 'body-parser';
 import figaro from 'figaro';
-import hbs from 'hbs'
+import hbs from 'hbs';
 
 
 figaro.parse(null, (err) => err && process.exit());
 
 const MongoClient = MongoDB.MongoClient;
-var url = 'mongodb://localhost:27017/QTK';
+// var url = 'mongodb://localhost:27017/QTK';
+// var url = process.env.MONGODB_URI;
 
-hbs.registerPartials(__dirname + '/hbs')
-app.set('view engine', 'hbsb')
+hbs.registerPartials(__dirname + '/hbs');
+app.set('view engine', 'hbsb');
 
 
 const default_photos = [
@@ -76,7 +77,7 @@ function postImages(db, params, callback) {
 }
 
 app.use(logger('dev'));
-const urlEncoder = bodyParser.urlencoded({ extended: false })
+const urlEncoder = bodyParser.urlencoded({ extended: false });
 
 app.use(express.static(path.join(__dirname,'static')));
 
@@ -86,7 +87,7 @@ app.use(express.static(path.join(__dirname,'static')));
 // });
 
 app.get('/', function(req, res){
-  let {CLOUD_NAME, API_KEY, API_SECRET, UPLOAD_PRESET} = process.env
+  let {CLOUD_NAME, API_KEY, API_SECRET, UPLOAD_PRESET} = process.env;
 
   res.render('index.hbs', {
     options: {
@@ -100,7 +101,7 @@ app.get('/', function(req, res){
 
 app.post('/images', urlEncoder, (req, res) => {
   var body = req.body;
-
+  var url = process.env.MONGODB_URI;
 
   MongoClient.connect(url,
     (err, db) => {
@@ -115,6 +116,7 @@ app.post('/images', urlEncoder, (req, res) => {
 
 app.get('/images/:userId', function(req, res){
   var userId = req.params.userId;
+  var url = process.env.MONGODB_URI;
 
   MongoClient.connect(url,
     (err, db) => {
