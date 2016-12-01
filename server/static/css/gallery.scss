@@ -1,4 +1,9 @@
 #gallery-container {
-  overflow-y: scroll;
-  height: 500px;
+  min-height: 500px;
+  overflow: hidden;
+
+  #gallery {
+    overflow-y: scroll;
+  }
+
 }

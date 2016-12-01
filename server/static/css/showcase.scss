@@ -1,3 +1,54 @@
+.canvas-container {
+  min-height: 512px;
+}
+
+
 .sub-canvas-content {
   float: right;
+}
+
+.header-row {
+  background: $jet;
+  padding-bottom: 15px;
+}
+
+.title-text {
+  color: #fff;
+  font-family: $header-font;
+  font-size: 2em;
+
+    a:hover {
+      color: #fff;
+    }
+}
+
+.action-button {
+  width: 35%;
+}
+
+input[type="range"]{
+  -webkit-appearance:none;
+  width:200px;
+  height:2px;
+  // background: aqua;
+  border: 1px solid $jet;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;
+  height:20px;
+  border-radius: 100%;
+  background: white;
+  position:relative;
+  border: 3px solid $dsg;
+  z-index:3;
+  cursor: pointer;
+}
+
+.threshold-text {
+  display: block;
+  margin-top: 10px;
 }

@@ -40,7 +40,7 @@ const default_photos = [
     dimension: 512
   },
   {
-    public_id: `s5b2g9ttmyzgnxhmwfan`,
+    public_id: `fs1ybcorovhecgfgthpx`,
     dimension: 512
   },
   {

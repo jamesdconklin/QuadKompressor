@@ -1,9 +1,29 @@
-$primary-font: 'Helvetica';
-$secondary: '#fff';
+$primary-font: 'Roboto Condensed';
+$header-font: 'Roboto';
+$fallback-font: 'sans-serif';
+$jet: #353535;
+$mg: #3c6e71;
+$gainsboro: #d9d9d9;
+$dsg: #284b63;
 
-
-
-
+// Add to rows or col for some top spacing
 .step {
   margin-top: 20px;
+}
+
+// Add to button class
+.flatbutton {
+  cursor: pointer;
+  background: $jet;
+  border-radius: 30px;
+  padding: 10px 18px;
+  color: white;
+  border: 1px solid transparent;
+  text-align: center;
+  font-size: 14px;
+  line-height: 18px;
+  text-transform: uppercase;
+  font-weight: 300;
+  display: inline-block;
+  transition: color 0.1s linear, background-color 0.1s linear;
 }

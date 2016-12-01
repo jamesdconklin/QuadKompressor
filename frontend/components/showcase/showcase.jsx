@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react'
 import {CloudinaryImage, cloudinaryConfig} from 'react-cloudinary'
+import {Link, hashHistory} from 'react-router';
 import Cookies from 'cookies-js'
+
+
 import QTNode from 'QTNode'
 import Gallery from 'Gallery'
 
@@ -125,29 +128,22 @@ class Showcase extends React.Component {
 
 
   render () {
+
     return (
       <div className='container-fluid'>
-        <div className='row'>
+        <div className="row header-row">
+          <div className='col-lg-12 step text-center'>
+            <h1 className='title-text'><Link to='/'>QT-Kompressor</Link></h1>
+          </div>
+        </div>
+
+        <div className='row step'>
           <div className='col-lg-4'>
             <Gallery photos={this.props.gallery} sendImage={this.props.sendImage}/>
-            <div className='row'>
-              <button className="btn-primary action-button" onClick={this.cloudUpdate}>UPLOAD</button>
-              <button className="btn-secondary action-button" onClick={this.playKompression}>PLAY</button>
-              <input
-                className='threshold'
-                type='range'
-                 min="50"
-                 max="2500"
-                 step="50"
-                 value={this.state.threshold}
-                 onChange={this.changeThreshold}
-                 onMouseUp={this.redrawTree}/>
-
-            </div>
           </div>
 
 
-          <div className='col-lg-8'>
+          <div className='col-lg-8 canvas-container'>
             <canvas id="tableau" className="center-block">Canvas is here</canvas>
           </div>
 
@@ -159,7 +155,37 @@ class Showcase extends React.Component {
           </div>
           <div className='col-lg-8 sub-canvas-content'>
             <hr/>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <div className='row'>
+              <div className='col-lg-4 text-center'>
+                <button className="button flatbutton action-button" onClick={this.cloudUpdate}>UPLOAD</button>
+              </div>
+              <div className='col-lg-4 text-center'>
+                <button className="button flatbutton action-button" onClick={this.playKompression}>PLAY</button>
+              </div>
+              <div className='col-lg-4 text-center'>
+                <input
+                  className='threshold'
+                  type='range'
+                   min="50"
+                   max="2500"
+                   step="50"
+                   value={this.state.threshold}
+                   onChange={this.changeThreshold}
+                   onMouseUp={this.redrawTree}/>
+                 <span className="threshold-text">{this.state.threshold}</span>
+              </div>
+
+            </div>
+
+            <div className='row step'>
+              <div className='col-lg-12'>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+              </div>
+            </div>
+
+
           </div>
         </div>
 
