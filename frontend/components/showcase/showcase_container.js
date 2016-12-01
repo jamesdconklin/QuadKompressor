@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Showcase from 'ShowcaseComponent';
-import { fetchAllImages, createImage } from 'ImagesActions';
+import { fetchAllImages, createImage, receiveImage } from 'ImagesActions';
 
 const mapStateToProps = ({images, user}) => ({
   gallery: images.gallery,
@@ -10,7 +10,8 @@ const mapStateToProps = ({images, user}) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchAllImages: (user) => dispatch(fetchAllImages(user)),
-  createImage: (image) => dispatch(createImage(image))
+  createImage: (image) => dispatch(createImage(image)),
+  sendImage: (image) => dispatch(receiveImage(image))
 });
 
 export default connect(

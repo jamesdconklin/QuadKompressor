@@ -6,8 +6,8 @@ import {
 import { merge } from 'lodash';
 
 const defaultState = {
-  currentImage: {public_id: 'o8hbsltnvvxrrub5k8qb', dimension: 512*2},
-  gallery: {}
+  currentImage: null,
+  gallery: []
 };
 
 const ImagesReducer = (state = defaultState, action) => {

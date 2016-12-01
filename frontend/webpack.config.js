@@ -17,6 +17,7 @@ const path = require('path');
       ImagesUtils: "util/images_utils.js",
       LandingComponent: "components/landing/landing.jsx",
       MasterMiddleware: "middleware/master_middleware.js",
+      Gallery: 'components/showcase/gallery.jsx',
       QTNode: "components/showcase/QTNode.js",
       Root: "components/root.jsx",
       RootReducer: "reducers/root_reducer.js",

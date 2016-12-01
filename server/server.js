@@ -18,6 +18,42 @@ hbs.registerPartials(__dirname + '/hbs')
 app.set('view engine', 'hbsb')
 
 
+const default_photos = [
+  {
+    public_id: `oayjy9bn7psth8wjttnz`,
+    dimension: 512
+  },
+  {
+    public_id: `q8rqxaa8hqnp7jwb6sux`,
+    dimension: 512
+  },
+  {
+    public_id: `defaut_pic_zfnuk9`,
+    dimension: 512
+  },
+  {
+    public_id: `fxpqnupu7mczqi63rosh`,
+    dimension: 512
+  },
+  {
+    public_id: `zl6pmmu6ekbone5ttfky`,
+    dimension: 512
+  },
+  {
+    public_id: `s5b2g9ttmyzgnxhmwfan`,
+    dimension: 512
+  },
+  {
+    public_id: `daiztnqq6phrols2d1sf`,
+    dimension: 512
+  },
+  {
+    public_id: `v6meldcsbtbl0bqhhpvq`,
+    dimension: 512
+  }
+];
+
+
 function findImages(db, id, callback) {
   var collection = db.collection('images');
   collection.find({user_id: id}).toArray(
@@ -86,7 +122,7 @@ app.get('/images/:userId', function(req, res){
       findImages(db, userId,
         (images) => {
           db.close();
-          res.send(images);
+          res.send(images.concat(default_photos));
         }
       );
     }
