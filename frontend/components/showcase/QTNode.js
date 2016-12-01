@@ -1,23 +1,21 @@
-const THRESHOLD = 50;
 
 class QTNode {
-  constructor(pixels, x, y, dim, quadrant) {
+  constructor(pixels, x, y, dim, threshold = 300) {
     this.x = x;
     this.y = y;
     this.dim = dim;
-    this.quadrant = quadrant;
-
+    this.threshold = threshold
     this.color = null;
     // idx 0 -> NW. Increases clockwise.
     this.children = [];
 
     let { average, variance } = this.chromaticAnalysis(pixels, x, y, dim);
 
-    if ( variance > THRESHOLD) {
-      this.children.push(new QTNode(pixels, x, y, dim/2, 0 || [-1, -1]));
-      this.children.push(new QTNode(pixels, x+dim/2, y, dim/2, 0 || [1, -1]));
-      this.children.push(new QTNode(pixels, x+dim/2, y+dim/2, dim/2, 0 || [1,1]));
-      this.children.push(new QTNode(pixels, x, y+dim/2, dim/2, 0 || [-1, 1]));
+    if ( variance > this.threshold) {
+      this.children.push(new QTNode(pixels, x, y, dim/2, this.threshold));
+      this.children.push(new QTNode(pixels, x+dim/2, y, dim/2, this.threshold));
+      this.children.push(new QTNode(pixels, x+dim/2, y+dim/2, dim/2, this.threshold));
+      this.children.push(new QTNode(pixels, x, y+dim/2, dim/2, this.threshold));
     } else {
       this.color = average;
     }
@@ -111,7 +109,7 @@ class QTNode {
     ctx.fill();
   }
 
-  drawRadialOut(ctx, color) {
+  drawRadialOut(ctx, color, quadrant) {
     for (var i = 1; i <= this.dim; i++) {
       let { fillStyle } = ctx;
       let j = i;
@@ -119,7 +117,7 @@ class QTNode {
         () => {
           ctx.fillStyle = color;
           ctx.beginPath();
-          this.drawRadialOutIteration(ctx, j);
+          this.drawRadialOutIteration(ctx, j, quadrant);
           ctx.fillStyle = fillStyle;
         },
         j*25-25
@@ -127,9 +125,9 @@ class QTNode {
     }
   }
 
-  drawRadialOutIteration(ctx, iteration) {
-    let x_o = this.quadrant[0] < 0 ? this.x - iteration + this.dim : this.x;
-    let y_o = this.quadrant[1] < 0 ? this.y - iteration + this.dim : this.y;
+  drawRadialOutIteration(ctx, iteration, quadrant) {
+    let x_o = quadrant[0] < 0 ? this.x - iteration + this.dim : this.x;
+    let y_o = quadrant[1] < 0 ? this.y - iteration + this.dim : this.y;
 
     ctx.rect(
       x_o,
@@ -139,7 +137,7 @@ class QTNode {
     );
     ctx.fill();
   }
-  drawRadialIn(ctx, color) {
+  drawRadialIn(ctx, color, quadrant) {
     for (var i = 1; i <= this.dim; i++) {
       let { fillStyle } = ctx;
       let j = i;
@@ -147,7 +145,7 @@ class QTNode {
         () => {
           ctx.fillStyle = color;
           ctx.beginPath();
-          this.drawRadialInIteration(ctx, j);
+          this.drawRadialInIteration(ctx, j, quadrant);
           ctx.fillStyle = fillStyle;
         },
         j*25-25
@@ -155,9 +153,9 @@ class QTNode {
     }
   }
 
-  drawRadialInIteration(ctx, iteration) {
-    let x_o = this.quadrant[0] > 0 ? this.x - iteration + this.dim : this.x;
-    let y_o = this.quadrant[1] > 0 ? this.y - iteration + this.dim : this.y;
+  drawRadialInIteration(ctx, iteration, quadrant) {
+    let x_o = quadrant[0] > 0 ? this.x - iteration + this.dim : this.x;
+    let y_o = quadrant[1] > 0 ? this.y - iteration + this.dim : this.y;
 
     ctx.rect(
       x_o,
@@ -169,13 +167,14 @@ class QTNode {
   }
 
 
-  draw(ctx) {
+  draw(ctx, quadrant = [-1, -1]) {
     let timeout = 0;
     let { fillStyle, globalAlpha, lineWidth } = ctx;
+    let quadrants = [[-1, -1],[1, -1],[1, 1],[-1, 1]]
     if (this.children.length) {
-      this.children.forEach((child) => {
+      this.children.forEach((child, idx) => {
         setTimeout(() =>{
-          child.draw(ctx);
+          child.draw(ctx, quadrants[idx]);
         }, timeout);
         timeout += 250;
       });
@@ -183,7 +182,7 @@ class QTNode {
       let colorStr = this.colorString();
         if (this.dim > 1) {
 
-          this.drawRadialOut(ctx, colorStr);
+          this.drawRadialOut(ctx, colorStr, quadrant);
 
         } else {
           ctx.beginPath();
