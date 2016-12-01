@@ -1,67 +1,61 @@
-# QuadKompressor
+# QTKompressor
 
-## Collaborators
+[Live Site]()
 
-James Conklin & Michael Loren Loschiavo
+QTKompressor is an application created to demonstrate the workings of the [quadtree](https://en.wikipedia.org/wiki/Quadtree) data structure. By recursively decomposing an image into quadrants by similar colors,it can render a compressed version of the image. When breaking down based on looser thresholds, these flattened regions are illustrative of the underlying structure.
 
-[Trello Board](https://trello.com/b/Gjr0s6xz)
+<!-- before/after image, high threshold -->
 
-[Live View]()
+## Features and Implementation
+ - Compression
+ - Rendering
+ - Gallery
+ - Backend
+ - Image Upload
 
-## Overview
+### Compression
 
-QuadKompressor will allow users to upload their own image to the application
-through the Cloudinary API and key a list of such uploads to a given user with data stored in user cookies. It will utilize a quad-tree data structure to decompose and normalize an image by like color
+We load an image from Cloudinary into a floating image element. When complete, it paints itself onto a canvas element and triggers first a reading of each pixel's RGB values into an array and then a building of a new quadtree for the scanned pixels. Each `QTNode` is inserted with `x`, `y`, and `dim` variables that define the region of the image it contains.
 
-## MVP Features
+ When built, each node scans through the pixels in its domain once to determine the average color vector and again to determine chromatic variance. Chromatic variance should be understood as standard stastical variance, i.e. the average squared distance of a pixel to the average, i.e E((R-R_avg)^2 + (G-G_avg)^2 + (B-B_avg)^2).
+ <!-- Ask liz for help with math markdown -->
 
-- [ ] Cloudinary Upload
-- [ ] Minimal Node.js back-end to bootstrap Cloudinary API
-- [ ] Gallery view of user images below compressor component.
-- [ ] Compression of uploaded images using quad-tree structure.
+ <!-- Code snippet: Avg/Variance passes -->
 
-## Wire-frames
+If the calculated variance is below a certain threshold, the node and its contained region are assigned the average color vector to be painted in on rendering. If instead the variance is above a given threshold, the node divides its region in four and inserts a child for each quadrant. The process then repeats until all children contain a chromatically uniform region, even if that leaves them with a single pixel.
 
-**Landing Page**
+<!-- Code snippet: branching out or terminating in leaf -->
 
-![landing](docs/wireframes/landing.png)
+Once the tree has finished branching out, we've enough information to render the compressed image.
 
-**App Page**
+### Rendering
 
-![application](docs/wireframes/application.png)
+To render our quadtree, we traverse it, painting leaf regions with their average color and mapping recursive `draw(ctx)` calls to the children of any parent nodes. We opted to do this with timeouts to allow the app to progressively paint multiple regions of the map at once in a loosely coordinated manner.
 
-## Implementation
+Within each parent node, we set different timeouts for the recursive calls to children's `draw` methods to stagger their rendering.
 
-### Libraries & Techniques
-Both collaborators have prior experience working with the Cloudinary API, and we foresee little trouble integrating it into this project.
+<!-- snippet: recursive calls to draw -->
 
-While we have not implemented back-ends in Node.js previously, the application requires minimal back-end functionality, so we identify this as a good opportunity to learn the library.
+When rendering a leaf node, we animate painting the region by setting increasing timeouts with callbacks rendering incrementally larger squares
 
-The front-end will be implemented within the React/Redux framework. Between us, we've enough experience that we foresee little issue here, as well.
+<!-- snippet: drawRadialOut -->
 
-Research will be needed to understand the quad tree implementation, i.e. traversal, insertion, & invariants.
-We will need to review statistical variance to figure out how to assess whether an image quadrant needs to be further decomposed by the QT.
+### Gallery
 
-We will need to learn the D3.js library for rendering. Dividing images strongly suggests a need for vector graphics and we've found examples within the endorsed example list suggesting suitability for this project.  
+<!-- TODO: Loren's got best operational knowledge.   -->
 
-### Schedule
+### Backend
 
-- **Day 1-3:** Set up dev environment and install appropriate node packages. Learn enough node.js to accomplish minimal back-end server with Cloudinary API key bootstrapping, interact with a single-table MongoDB database, and expose a simple API for fetching image urls from and posting them to the DB.
+When designing this application, we determined a minimal backend would suffice for our needs.
 
-- **Day 4-5:** React/Redux setup with Cloudinary integration. Our front-end app should allow image upload, gallery display, and store and retrieve user image urls by a token in the cookie.
+Our server only needs to support four functions - serving the root page, servicing POST and GET requests to the image table, and serving static assets. For these lightweight needs, we built a lightweight Node.js/Express Server
 
-- **Day 6** Research QT data structure and verify applicability of calculating statistical variance for colors.
+We serve an API supporting POSTing and GETting images to and from a single table. Without multiple tables, we could use a non-relational database, and so we chose MongoDB for our database.
 
-- **Day 7-8** Implement QT image decomposition algorithm and rendering algo progress.
+For the sake of simpliccity, we kept user interactions relatively anonymous - images are uploaded, indexed, and fetched by user tokens stored in the client's cookies. This allows returning users to see the images they've already uploaded without our needing to concern ourselves with signup processes for such a lightweight service.
 
-- **Day 9+:** Styling, bug-hunting and squashing.
+### Image Upload
 
-## Post-MVP Enhancements
+As we've both worked with Cloudinary before, we used its API to handle image delivery and uploads. Images are saved to the database with the `public_id` pulled from responses to successful Cloudinary uploads. Using the service to resize images was incredibly helpful, as the quadtree image breakdown is easiest to perform and demonstrate on square images, even moreso with width and height which are powers of 2.
 
- - [ ] Camera integration
-   - [ ] Change name to "Hello-QT"
- - [ ] Histogram of decomposed colors
- - [ ] Postprocessing/Filters
-   - Grayscale
-   - Variable tolerance
-   - Render as bitmap.
+We did have to contend with Cross-Origin Resource Sharing issues when reading pixel data from our canvas. As we painted the raw image to the canvas for sampling, it was "tainted" by cross-origin data. We eventually solved this by loading the image element with an "Anonymous" cross-origin attribute.  
