@@ -1,0 +1,45 @@
+
+
+// landing header takes styles from showcase.scss
+
+.main-content {
+  padding-bottom: 40px;
+}
+.landing {
+  p {
+    line-height: 1.5;
+    margin: 10px 5px 0px 5px;
+  }
+
+  .flatbutton {
+    border-radius: 5px;
+  }
+}
+
+.sub-text {
+  margin-top: 5px;
+  color: $gainsboro;
+  font-size: 0.9em;
+}
+
+.section-title {
+  background: aliceblue;
+  border-radius: 5px;
+  color: $dsg;
+  font-family: $header-font;
+  font-size: 1.25em;
+  padding: 5px;
+}
+
+#loren-sub-divide {
+  margin: 0 auto;
+}
+
+#tree-breakdown {
+  margin: 0 auto;
+}
+
+
+#gif-demo {
+  margin: 0 auto;
+}
