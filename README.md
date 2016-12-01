@@ -1,11 +1,10 @@
 # QTKompressor
 
-[Live Site]()
+[Live Site](https://qtkompressor.herokuapp.com)
 
 QTKompressor is an application created to demonstrate the workings of the [quadtree](https://en.wikipedia.org/wiki/Quadtree) data structure. By recursively decomposing an image into quadrants by similar colors ,it can render a compressed version of the image. When breaking down based on looser thresholds, these flattened regions are illustrative of the underlying structure.
 
 <img style="width: 300px; height: 300px;" src="docs/photos/normalCat.png"/>
-<span style="font-size: 30px;">→</span>
 <img style="width: 300px; height: 300px;" src="docs/photos/QTKat.png"/>
 
 ## Features and Implementation
