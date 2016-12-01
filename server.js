@@ -8,8 +8,9 @@ import bodyParser from 'body-parser';
 import figaro from 'figaro';
 import hbs from 'hbs';
 
-
-figaro.parse(null, (err) => err && process.exit());
+if (!process.env.IGNORE_FIGARO) {
+  figaro.parse(null, (err) => err && process.exit());
+}
 
 const MongoClient = MongoDB.MongoClient;
 // var url = 'mongodb://localhost:27017/QTK';
