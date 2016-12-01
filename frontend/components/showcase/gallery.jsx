@@ -38,9 +38,9 @@ class Gallery extends React.Component {
   render () {
 
     return (
-      <div id='gallery-container'>
+      <div id='gallery-container content-center'>
         <Masonry
-          className={'my-class-name'}
+          id={'gallery'}
           elementType={'ul'}
           options={masonryOptions}
           disableImagesLoaded={false}

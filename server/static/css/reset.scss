@@ -28,9 +28,9 @@ html {
 
 body {
  line-height: 1;
- color: black;
- background: transparent;
- font-family: $primary-font;
+ color: $jet;
+ background: $gainsboro;
+ font-family: $primary-font, $header-font, $fallback-font;
 }
 ol, ul {
  list-style: none;
@@ -73,7 +73,7 @@ a:active{
 
 a:hover {
   text-decoration: none;
-  color: $secondary;
+  color: transparent;
 }
 
 input {
