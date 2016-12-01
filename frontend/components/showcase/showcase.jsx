@@ -179,8 +179,14 @@ class Showcase extends React.Component {
 
             <div className='row step'>
               <div className='col-lg-12'>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                <p className="instructions">
+                  Upload your own photo with the Upload button. Your photos
+                  will be saved and accessible on further visits from your
+                  browser. Hit play, and QTKompressor will reconstruct your
+                  image based on the current threshold. This threshold can
+                  be adjusted with the slider. A higher threshold yields
+                  more compressed, boxier images, and a lower threshold will
+                  be more faithful to the original.
                 </p>
               </div>
             </div>
